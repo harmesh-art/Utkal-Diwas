@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utkal Diwas - Odisha Day Celebration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
+    <style>
+        /* Global Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Yatra+One&family=Poppins:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --odisha-red: #A80000;
+            --odisha-yellow: #FFB800;
+            --odisha-white: #FFFFFF;
+            --odisha-dark: #1A1A1A;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: var(--odisha-dark);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--odisha-red);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: var(--odisha-white);
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Yatra One', cursive;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: var(--odisha-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--odisha-yellow);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Stage Section */
+        .main-stage {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: url('contents/odisha-day.webp') center/cover no-repeat;
+    margin-top: 80px;
+    overflow: hidden;
+}
+
+        .stage-content {
+            text-align: center;
+            z-index: 2;
+        }
+
+        /* Curtain Effect */
+        .curtain-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            z-index: 1;
+        }
+
+        .curtain-left, .curtain-right {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            top: 0;
+            background-color: var(--odisha-red);
+            background-image: url('/api/placeholder/800/800');
+            background-size: cover;
+        }
+
+        .curtain-left {
+            left: 0;
+            background-position: right;
+            box-shadow: inset -10px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .curtain-right {
+            right: 0;
+            background-position: left;
+            box-shadow: inset 10px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Fixed: Changed the position of the curtain header to avoid overlap with countdown */
+        .curtain-header {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: var(--odisha-yellow);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .curtain-header h2 {
+            color: var(--odisha-red);
+            font-family: 'Yatra One', cursive;
+            font-size: 2rem;
+        }
+
+        /* Open Button */
+        .open-button {
+            padding: 15px 35px;
+            background-color: var(--odisha-yellow);
+            color: var(--odisha-dark);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 3;
+            position: relative;
+            font-family: 'Yatra One', cursive;
+        }
+
+        .open-button:hover {
+            background-color: #FFD700;
+            transform: translateY(-3px);
+        }
+
+        /* Celebration Message */
+        .celebration {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            opacity: 0;
+            transform: scale(0.8);
+            position: relative;
+            z-index: 0;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .celebration h1 {
+            font-size: 3.5rem;
+            color: var(--odisha-red);
+            margin-bottom: 20px;
+            font-family: 'Yatra One', cursive;
+        }
+
+        .celebration p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--odisha-dark);
+        }
+
+        .odisha-symbol {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            background-image: url('/api/placeholder/100/100');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* Fixed: Adjusted countdown position to avoid overlap with header */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            margin: 130px 0 30px; /* Increased top margin to avoid overlap */
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 15px;
+        }
+
+        .countdown-digit {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--odisha-red);
+            background-color: var(--odisha-white);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .countdown-label {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--odisha-dark);
+        }
+
+        /* History Section */
+        .history-section {
+            padding: 80px 0;
+            background-color: var(--odisha-white);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--odisha-red);
+            text-align: center;
+            margin-bottom: 50px;
+            font-family: 'Yatra One', cursive;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background-color: var(--odisha-yellow);
+            margin: 15px auto 0;
+        }
+
+        .history-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .history-text {
+            flex: 1;
+            padding: 0 30px;
+            min-width: 300px;
+        }
+
+        .history-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--odisha-dark);
+            font-weight: 600;
+        }
+
+        .history-text p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .history-image {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+        }
+
+        .history-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Culture Section */
+        .culture-section {
+            padding: 80px 0;
+            background-color: #f9f7f2;
+        }
+
+        .culture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .culture-item {
+            background-color: var(--odisha-white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .culture-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .culture-item-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .culture-item-content {
+            padding: 20px;
+        }
+
+        .culture-item-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--odisha-red);
+            font-weight: 600;
+        }
+
+        .culture-item-content p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 80px 0;
+            background-color: var(--odisha-white);
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .gallery-item {
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            padding: 20px;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--odisha-dark);
+            color: var(--odisha-white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .footer-column {
+            flex: 1;
+            margin-bottom: 30px;
+            min-width: 200px;
+            padding: 0 15px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--odisha-yellow);
+            position: relative;
+        }
+
+        .footer-column h4:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 30px;
+            height: 2px;
+            background-color: var(--odisha-yellow);
+        }
+
+        .footer-column p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--odisha-white);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: var(--odisha-yellow);
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin-right: 10px;
+            color: var(--odisha-white);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--odisha-yellow);
+            color: var(--odisha-dark);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        /* Audio Controls */
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background-color: var(--odisha-red);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .audio-controls:hover {
+            background-color: var(--odisha-yellow);
+            color: var(--odisha-dark);
+        }
+
+        /* Modal for enlarged gallery images */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border: 5px solid white;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Share Button */
+        .share-button {
+            display: inline-block;
+            padding: 10px 25px;
+            background-color: var(--odisha-yellow);
+            color: var(--odisha-dark);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .share-button:hover {
+            background-color: var(--odisha-red);
+            color: var(--odisha-white);
+            transform: translateY(-3px);
+        }
+
+        /* Enhanced Responsive Styles */
+        @media (max-width: 992px) {
+            .history-content {
+                flex-direction: column;
+            }
+            
+            .history-image {
+                margin-top: 30px;
+                order: 1;
+            }
+            
+            .history-text {
+                order: 2;
+            }
+            
+            .countdown {
+                margin-top: 120px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav ul {
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--odisha-red);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                transform: translateY(-200%);
+                transition: transform 0.3s ease;
+                z-index: 101; /* Increased z-index */
+            }
+            
+            nav ul.active {
+                transform: translateY(0);
+            }
+            
+            nav ul li {
+                margin: 15px 0;
+            }
+            
+            .celebration h1 {
+                font-size: 2.5rem;
+            }
+            
+            .countdown-digit {
+                width: 60px;
+                height: 60px;
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .curtain-header h2 {
+                font-size: 1.6rem;
+            }
+            
+            .countdown {
+                margin-top: 110px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-text {
+                font-size: 1.2rem;
+            }
+            
+            .celebration h1 {
+                font-size: 2rem;
+            }
+            
+            .celebration p {
+                font-size: 1rem;
+            }
+            
+            .countdown {
+                flex-wrap: wrap;
+                margin-top: 100px;
+            }
+            
+            .countdown-item {
+                margin: 10px;
+            }
+            
+            .countdown-digit {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .countdown-label {
+                font-size: 0.8rem;
+            }
+            
+            .open-button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            
+            .curtain-header {
+                height: 60px;
+            }
+            
+            .curtain-header h2 {
+                font-size: 1.4rem;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="contents/Logo.jpg" alt="PDCS Logo" style="height: 40px; margin-right: 10px;">
+                <div class="logo-text">PDCS Club,GIET University</div>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#history">History</a></li>
+                    <li><a href="#culture">Culture</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Stage -->
+<section id="home" class="main-stage">
+    <div class="curtain-container">
+        <div class="curtain-header">
+            <h2>Utkal Diwas Celebrations</h2>
+        </div>
+        <div class="curtain-left"></div>
+        <div class="curtain-right"></div>
+    </div>
+    
+    <div class="stage-content">
+        <!-- Added a container div for the timer section with improved spacing -->
+        <div class="timer-section" style="margin-top: 120px; margin-bottom: 30px;">
+            <h3 style="color: white; margin-bottom: 20px; text-align: center; font-size: 1.5rem;">Countdown to Utkal Diwas</h3>
+            
+            <div class="countdown" style="position: relative; z-index: 10;">
+                <div class="countdown-item">
+                    <div class="countdown-digit" id="countdown-days">01</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-digit" id="countdown-hours">14</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-digit" id="countdown-minutes">52</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-digit" id="countdown-seconds">35</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="open-button" id="open-curtain">Open Curtain</button>
+        
+        <div class="celebration" id="celebration-message">
+            <div class="odisha-symbol"></div>
+            <h1>Happy Utkal Diwas</h1>
+            <p>With regards from the PDCS Club, GIET University</p>
+            <a href="#" class="share-button">
+                <i class="fas fa-share-alt"></i> Share
+            </a>
+        </div>
+    </div>
+</section>
+    <!-- Culture Section -->
+    <section id="culture" class="culture-section">
+        <div class="container">
+            <h2 class="section-title">Rich Culture & Traditions</h2>
+            <div class="culture-grid">
+                <div class="culture-item">
+                    <div class="culture-item-img" style="background-image: url('contents/odissi.jpg')"></div>
+                    <div class="culture-item-content">
+                        <h3>Odissi Dance</h3>
+                        <p>One of the eight classical dance forms of India, Odissi originated in the temples of Odisha. Known for its fluid movements, sculpturesque poses, and emotional expressions, it beautifully portrays devotion and mythology.</p>
+                    </div>
+                </div>
+                <div class="culture-item">
+                    <div class="culture-item-img" style="background-image: url('contents/Pattachitra-Art.jpg')"></div>
+                    <div class="culture-item-content">
+                        <h3>Pattachitra Art</h3>
+                        <p>A traditional cloth-based scroll painting with rich colorful applications, intricate details, and mythological narratives. These paintings are created using natural colors and follow a traditional style that has been preserved for centuries.</p>
+                    </div>
+                </div>
+                <div class="culture-item">
+                    <div class="culture-item-img" style="background-image: url('contents/Jagannath_temple.jpg')"></div>
+                    <div class="culture-item-content">
+                        <h3>Jagannath Culture</h3>
+                        <p>The worship of Lord Jagannath is central to Odia culture. The annual Rath Yatra (Chariot Festival) at Puri is world-famous and draws millions of devotees from around the globe to witness the grand procession.</p>
+                    </div>
+                </div>
+                <div class="culture-item">
+                    <div class="culture-item-img" style="background-image: url('contents/handicraft.jpg')"></div>
+                    <div class="culture-item-content">
+                        <h3>Handicrafts</h3>
+                        <p>Odisha is known for its exquisite handicrafts including silver filigree work, stone carving, appliqué work, brass and bell metal crafts, bamboo and cane products, and handloom textiles like the famous Sambalpuri saree.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Odisha Gallery</h2>
+            <div class="gallery-container">
+                <div class="gallery-item">
+                    <img src="contents/sun_temple.jpg" alt="Konark Sun Temple" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h4>Konark Sun Temple</h4>
+                        <p>A 13th-century CE Sun temple at Konark, Odisha, India.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="contents/Jagannath_temple.jpg" alt="Puri Jagannath Temple" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h4>Puri Jagannath Temple</h4>
+                        <p>Sacred temple dedicated to Lord Jagannath in Puri.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="contents/chillika_lake.jpg" alt="Chilika Lake" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h4>Chilika Lake</h4>
+                        <p>Largest coastal lagoon in India and second largest in the world.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="contents/odishi_dance.jpg" alt="Odissi Dance" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h4>Odissi Dance</h4>
+                        <p>Classical dance form that originated in the temples of Odisha.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="contents/sambalpuri_saree.jpg" alt="Sambalpuri Saree" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h4>Sambalpuri Saree</h4>
+                        <p>Traditional handloom saree known for its unique designs.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="contents/Lingaraj_temple.jpg" alt="Lingaraj Temple" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h4>Lingaraj Temple</h4>
+                        <p>Ancient temple dedicated to Lord Shiva in Bhubaneswar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>About Utkal Diwas</h4>
+                    <p>Utkal Diwas commemorates the formation of Odisha as a separate state on April 1, 1936. This website celebrates the rich culture, heritage, and history of Odisha.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#history">History</a></li>
+                        <li><a href="#culture">Culture</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact Us</h4>
+                    <p>Email: harmeshbehera13@gmail.com</p>
+                    <p>Phone: +91 9556393384</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="www.youtube.com/@pdcsclub3378"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to our newsletter for updates on events and celebrations.</p>
+                    <form>
+                        <input type="email" placeholder="Your email" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: none;">
+                        <button type="submit" style="padding: 10px 20px; background-color: var(--odisha-yellow); color: var(--odisha-dark); border: none; border-radius: 5px; cursor: pointer;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>About PDCS Club</h4>
+                <img src="contents/Logo.jpg" alt="PDCS Logo" style="height: 80px; margin: 10px 0;">
+                <p>"Secret of Success is the Mirror"</p>
+                <p>PDCS Club promotes personality development and communication skills among students at GIET University.</p>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Utkal Diwas Celebration - PDCS Club, GIET University. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Audio Controls -->
+    <div class="audio-controls" id="audio-toggle">
+        <i class="fas fa-volume-up" id="audio-icon"></i>
+    </div>
+
+    <!-- Modal for Gallery -->
+    <div class="modal" id="gallery-modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content">
+            <img src="" id="modal-img">
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.querySelector('nav ul');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Countdown Timer
+        const countdownDate = new Date("April 1, 2025 00:00:00").getTime();
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById("countdown-days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("countdown-hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("countdown-minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("countdown-seconds").innerText = seconds.toString().padStart(2, '0');
+            
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown-days").innerText = "00";
+                document.getElementById("countdown-hours").innerText = "00";
+                document.getElementById("countdown-minutes").innerText = "00";
+                document.getElementById("countdown-seconds").innerText = "00";
+            }
+        }
+        
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        // Curtain Animation
+        const openCurtainBtn = document.getElementById('open-curtain');
+        const curtainLeft = document.querySelector('.curtain-left');
+        const curtainRight = document.querySelector('.curtain-right');
+        const celebrationMsg = document.getElementById('celebration-message');
+        
+        openCurtainBtn.addEventListener('click', () => {
+            gsap.to(curtainLeft, {duration: 2, x: '-100%', ease: 'power2.out'});
+            gsap.to(curtainRight, {duration: 2, x: '100%', ease: 'power2.out'});
+            gsap.to(celebrationMsg, {
+                duration: 1, 
+                opacity: 1, 
+                scale: 1, 
+                y: -90,
+                delay: 1.5,
+                ease: 'back.out'
+            });
+            gsap.to(openCurtainBtn, {duration: 0.5, opacity: 0, y: 20});
+        });
+
+        // Gallery Modal
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const modal = document.getElementById('gallery-modal');
+        const modalImg = document.getElementById('modal-img');
+        const closeModal = document.querySelector('.close-modal');
+        
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.querySelector('img').src;
+                modalImg.src = imgSrc;
+                modal.style.display = 'flex';
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Background Music
+        let isPlaying = false;
+        const audioToggle = document.getElementById('audio-toggle');
+        const audioIcon = document.getElementById('audio-icon');
+        const bgMusic = new Audio('contents/bgmusic.mp3'); // Replace with actual music URL
+        bgMusic.loop = true;
+        
+        audioToggle.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                audioIcon.className = 'fas fa-volume-mute';
+            } else {
+                bgMusic.play().catch(e => console.log('Audio play failed:', e));
+                audioIcon.className = 'fas fa-volume-up';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Scroll Animation
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if (sectionTop < window.innerHeight * 0.75) {
+                    section.classList.add('animate');
+                }
+            });
+        });
+
+        // Share functionality
+        const shareButton = document.querySelector('.share-button');
+        shareButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Utkal Diwas Celebration',
+                    text: 'Join us in celebrating Utkal Diwas!',
+                    url: window.location.href
+                })
+                .catch(err => console.log('Share failed:', err));
+            } else {
+                alert('Web Share API not supported in your browser. Please copy the link manually.');
+            }
+        });
+    </script>
+</body>
+</html>
